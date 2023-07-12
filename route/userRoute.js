@@ -6,8 +6,9 @@ userRoute.get(`/create`, userContrller.new)
 userRoute.get(`/edit/:id`, userContrller.edit)
 
 //create new user - post route
-userRoute.post(`/user/new`, userContrller.newUser)
+userRoute.post(`/api/user/new`, userContrller.newUser)
 
+// default route
 userRoute.all(`**`, userContrller.pnf)
 
 module.exports = userRoute

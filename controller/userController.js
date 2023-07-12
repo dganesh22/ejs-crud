@@ -1,5 +1,5 @@
 // import the model in controller
-const userModel = require('../model/userModel')
+const User = require('../model/userModel')
 
 const userContrller = {
     index: (req,res) => {
@@ -12,9 +12,23 @@ const userContrller = {
         res.render('edit.ejs')
     },
      // we create a new controller to handler incoming data from front end
-    newUser: (req,res) => {
+    newUser: async (req,res) => {
         try {
-            
+             const newUser = req.body // receive data from front end
+
+             // email exists or not
+             const extEmail = await User.findOne({ email: newUser.email })
+                if(extEmail) 
+                    return res.status(401).json({ msg: `${newUser.email} already exists.`})
+
+            // mobile exists or not
+            const extMobile = await User.findOne({ mobile: newUser.mobile })
+                if(extMobile)
+                    return res.status(401).json({ msg: `${newUser.mobile} already exists.`})
+             
+            await User.create(newUser) // to create new user data
+
+             return res.status(200).json({ msg: "User created successfully", newUser })
         }catch(err) {
             console.log(err) // exception handling
         }
