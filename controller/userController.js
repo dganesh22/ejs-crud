@@ -3,7 +3,7 @@ const User = require('../model/userModel')
 
 const userContrller = {
     index: (req,res) => {
-        res.render('index.ejs')
+        res.render('index.ejs') /* it used to render(display) the views. and help us to receive the request + data and sending response to the view */
     },
     new: (req,res) => {
         res.render('create.ejs')
@@ -12,6 +12,7 @@ const userContrller = {
         res.render('edit.ejs')
     },
      // we create a new controller to handler incoming data from front end
+     // api controller -> which handles post request
     newUser: async (req,res) => {
         try {
              const newUser = req.body // receive data from front end
@@ -31,6 +32,20 @@ const userContrller = {
              return res.status(200).json({ msg: "User created successfully", newUser })
         }catch(err) {
             console.log(err) // exception handling
+        }
+    },
+    readUser: async (req,res) => {
+        try {
+            // 200 -> status ok
+            // 400 -> bad request
+            // 401 -> unauthorized
+            // 404 -> path not found
+            // 505 -> server not found
+        let users = await User.find()
+            res.status(200).json({ length: users.length, users })
+        }catch(err) {
+            // 500 -> internal server error
+            return res.status(500).json({ msg: err.message })
         }
     },
     pnf: (req,res) => {

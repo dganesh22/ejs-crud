@@ -28,6 +28,7 @@ const submitHandler = async (event) => {
         address: fAddr.value
     }
     console.log(`user data submitted`, data);
+    // sending the data to the api - post request 
     await fetch(`http://localhost:4500/api/user/new`, {
         method: "POST",
         headers: {

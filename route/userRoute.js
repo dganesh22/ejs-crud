@@ -1,14 +1,20 @@
 const userRoute = require('express').Router()
-const userContrller = require('../controller/userController')
+const userController = require('../controller/userController')
 
-userRoute.get(`/`, userContrller.index)
-userRoute.get(`/create`, userContrller.new)
-userRoute.get(`/edit/:id`, userContrller.edit)
+// route.request(path, controller)
 
-//create new user - post route
-userRoute.post(`/api/user/new`, userContrller.newUser)
+/* all other views (render controller) can be accessed only by get request  */
+userRoute.get(`/`, userController.index)
+userRoute.get(`/create`, userController.new)
+userRoute.get(`/edit/:id`, userController.edit)
 
-// default route
-userRoute.all(`**`, userContrller.pnf)
+//to create new user - post api route
+userRoute.post(`/api/user/new`, userController.newUser)
+
+// to read stored user data -> get api route
+userRoute.get(`/api/user/all`, userController.readUser)
+
+// request method -> all -> only assigned to default route
+userRoute.all(`**`, userController.pnf)
 
 module.exports = userRoute
